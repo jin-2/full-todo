@@ -7,6 +7,8 @@ const connectingString = `mongodb+srv://admin:${encodeURIComponent(
   'jobko#2022'
 )}@cluster0.nxoiru2.mongodb.net/?retryWrites=true&w=majority`;
 
+app.set('view engine', 'ejs');
+
 // DB 접속이 완료되면 node 서버를 띄운다.
 let db;
 MongoClient.connect(connectingString)
@@ -45,4 +47,9 @@ app.post('/add', (req, res) => {
     .catch((error) => {
       res.send('Fail');
     });
+});
+
+app.get('/list', async function (req, res) {
+  const result = await db.collection('post').find({}).toArray();
+  res.render('list.ejs', { posts: result });
 });
