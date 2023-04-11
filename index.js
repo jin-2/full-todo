@@ -8,8 +8,11 @@ const connectingString = `mongodb+srv://admin:${encodeURIComponent(
 )}@cluster0.nxoiru2.mongodb.net/?retryWrites=true&w=majority`;
 
 // DB 접속이 완료되면 node 서버를 띄운다.
+let db;
 MongoClient.connect(connectingString)
-  .then(() => {
+  .then((client) => {
+    db = client.db('todoapp');
+
     app.listen(8080, function () {
       console.log('listening on :8080');
     });
@@ -34,5 +37,12 @@ app.get('/write', function (req, res) {
 
 app.post('/add', (req, res) => {
   console.log(req.body);
-  res.send('전송완료!');
+  db.collection('post')
+    .insertOne({ ...req.body })
+    .then(() => {
+      res.send('Success');
+    })
+    .catch((error) => {
+      res.send('Fail');
+    });
 });

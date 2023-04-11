@@ -3,7 +3,6 @@
 서버 재실행 모듈: nodemon
 
 ## REST API란?
-
 1. Uniform interface(간결, 형식의 일관성, 예측가능)
 2. Client-server 역할 구분하기
 3. Stateless(요청들은 독립적으로 처리)
@@ -12,7 +11,6 @@
 6. Code on Demand
 
 ### URL 이름짓기 관습
-
 - 단어들을 동사보다는 명사 위주로 구성함
 - 응용해서 다른 정보들을 쉽게 가져올 수 있을 정도로 일관성 있음
 - 대충 봐도 어떤 정보가 들어올지 예측이 가능함
@@ -22,7 +20,6 @@
 -
 
 #### 예제
-
 instagram.com/explore/tags/kpop
 instagram.com/explore/tags/food
 facebook.com/natgeo/photos
@@ -36,3 +33,32 @@ facebook.com/bbc/photos
 - SQL 안배워도 됨
 - 복잡한 자료형 몰라도 됨
 - 평생 무료 호스팅해주는 곳이 있음 
+
+### 연동하기
+1. MongoDB atlas 가입
+   - Free 선택 가입
+   - Database Access 메뉴에서 DB 접속용 아이디/비번 생성
+   - Network Access 메뉴에서 IP 추가
+     - Allow access from anywhere / 0.0.0.0/0
+   - Database / collection 만들기
+     - Cluster는 하나의 호스팅 공간 그 안에 데이터베이스
+2. DB 접속하는 URL 찾아오기
+   - CONNECT라는 버튼
+   - npm install mongdb
+    ```javascript
+    const MongoClient = require('mongodb').MongoClient;
+    
+    MongoClient.connect('아까 챙겨온 접속URL', function(에러, client){
+      if (에러) return console.log(에러);
+      //서버띄우는 코드 여기로 옮기기
+      app.listen('8080', function(){
+        console.log('listening on 8080')
+      });
+    })
+    ```
+3. DB collection에 자료 추가하기
+    ```javascript
+    db.collection('post').insertOne( {이름 : 'John', _id : 100} , function(에러, 결과){
+        console.log('저장완료'); 
+      });
+    ```
