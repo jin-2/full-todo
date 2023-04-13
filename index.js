@@ -37,10 +37,14 @@ app.get('/write', function (req, res) {
   res.sendFile(__dirname + '/write.html');
 });
 
-app.post('/add', (req, res) => {
+app.post('/add', async (req, res) => {
   console.log(req.body);
+  const { totalPost } = await db
+    .collection('counter')
+    .findOne({ name: '게시물갯수' });
+
   db.collection('post')
-    .insertOne({ ...req.body })
+    .insertOne({ _id: totalPost + 1, ...req.body })
     .then(() => {
       res.send('Success');
     })
