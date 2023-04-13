@@ -80,3 +80,10 @@ app.delete('/delete/:id', async (req, res) => {
     });
   res.send('삭제완료');
 });
+
+app.get('/detail/:id', async function (req, res) {
+  const result = await db
+    .collection('post')
+    .findOne({ _id: Number(req.params.id) });
+  res.render('detail.ejs', { data: result });
+});
