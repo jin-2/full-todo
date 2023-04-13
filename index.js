@@ -46,6 +46,15 @@ app.post('/add', async (req, res) => {
   db.collection('post')
     .insertOne({ _id: totalPost + 1, ...req.body })
     .then(() => {
+      db.collection('counter').updateOne(
+        { name: '게시물갯수' },
+        { $inc: { totalPost: 1 } },
+        function (error, result) {
+          if (error) {
+            return console.log(error);
+          }
+        }
+      );
       res.send('Success');
     })
     .catch((error) => {
