@@ -20,7 +20,9 @@
       fetch(`/delete/${target.dataset.id}`, {
         method: "DELETE",
       }).then((res) => {
-        console.log(res);
+        if (res.status === 200) {
+          target.parentNode.remove();
+        }
       }).catch((err) => {
         console.log(err);
       })

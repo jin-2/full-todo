@@ -98,7 +98,9 @@ app.delete('/delete/:id', async (req, res) => {
   db.collection('post')
     .deleteOne({ _id: Number(req.params.id) })
     .then((error, result) => {
-      console.log(error, result);
+      if (!error) {
+        res.status(200).message('삭제되었습니다.');
+      }
     })
     .catch((error) => {
       console.log(error);
