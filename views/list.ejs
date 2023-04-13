@@ -11,6 +11,7 @@
         <strong><%= posts[i].title %></strong>
         <span><%= posts[i].date %></span>
         <button type="button" data-id="<%= posts[i]._id %>" class="button-delete">삭제</button>
+        <a href="/edit/<%= posts[i]._id %>">수정</a>
     </p>
 <% } %>
 <script>

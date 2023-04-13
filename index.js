@@ -7,6 +7,9 @@ const connectingString = `mongodb+srv://admin:${encodeURIComponent(
   'jobko#2022'
 )}@cluster0.nxoiru2.mongodb.net/?retryWrites=true&w=majority`;
 
+const methodOverride = require('method-override');
+app.use(methodOverride('_method'));
+
 app.set('view engine', 'ejs');
 
 // DB 접속이 완료되면 node 서버를 띄운다.
@@ -86,4 +89,11 @@ app.get('/detail/:id', async function (req, res) {
     .collection('post')
     .findOne({ _id: Number(req.params.id) });
   res.render('detail.ejs', { data: result });
+});
+
+app.get('/edit/:id', async function (req, res) {
+  const result = await db
+    .collection('post')
+    .findOne({ _id: Number(req.params.id) });
+  res.render('edit.ejs', { data: result });
 });
