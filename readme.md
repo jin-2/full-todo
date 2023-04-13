@@ -56,9 +56,53 @@ facebook.com/bbc/photos
       });
     })
     ```
-3. DB collection에 자료 추가하기
+   
+### DB collection에 자료 추가하기(Create)
     ```javascript
     db.collection('post').insertOne( {이름 : 'John', _id : 100} , function(에러, 결과){
         console.log('저장완료'); 
       });
     ```
+
+### DB collection 자료 가져오기(Read)
+    ```javascript
+    app.get('/list', async function (req, res) {
+      const result = await db.collection('post').find({}).toArray();
+      res.render('list.ejs', { posts: result });
+    });
+    ```
+
+### DB collection 자료 업데이트(Update)
+    ```javascript
+      db.collection('counter').updateOne(
+        { name: '게시물갯수' },
+        { $inc: { totalPost: 1 } },
+        function (error, result) {
+          if (error) {
+            return console.log(error);
+          }
+        }
+      );
+    ```
+
+### DB collection 자료 삭제(Delete)
+HTML에 form method는 GET, POST만 지원한다.
+DELETE는 요청은 어떻게 해야 할까?
+
+1. method-override 라이브러리 이용
+   - form에서 DELETE 요청 가능해짐
+2. JavaScript AJAX를 이용
+
+```javascript
+app.delete('/delete/:id', async (req, res) => {
+  db.collection('post')
+    .deleteOne({ _id: Number(req.params.id) })
+    .then((error, result) => {
+      console.log(error, result);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  res.send('삭제완료');
+});
+```

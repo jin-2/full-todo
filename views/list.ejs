@@ -7,8 +7,25 @@
 <body>
 <h1>List2</h1>
 <% for (var i = 0; i < posts.length; i ++) { %>
-    <h4><%= posts[i].title %></h4>
-    <p><%= posts[i].date %></p>
+    <p>
+        <strong><%= posts[i].title %></strong>
+        <span><%= posts[i].date %></span>
+        <button type="button" data-id="<%= posts[i]._id %>" class="button-delete">삭제</button>
+    </p>
 <% } %>
+<script>
+  document.addEventListener('click', (event) => {
+    const { target } = event;
+    if (target.classList.contains('button-delete')) {
+      fetch(`/delete/${target.dataset.id}`, {
+        method: "DELETE",
+      }).then((res) => {
+        console.log(res);
+      }).catch((err) => {
+        console.log(err);
+      })
+    }
+  });
+</script>
 </body>
 </html>

@@ -66,3 +66,15 @@ app.get('/list', async function (req, res) {
   const result = await db.collection('post').find({}).toArray();
   res.render('list.ejs', { posts: result });
 });
+
+app.delete('/delete/:id', async (req, res) => {
+  db.collection('post')
+    .deleteOne({ _id: Number(req.params.id) })
+    .then((error, result) => {
+      console.log(error, result);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  res.send('삭제완료');
+});
