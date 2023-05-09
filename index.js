@@ -97,3 +97,25 @@ app.get('/edit/:id', async function (req, res) {
     .findOne({ _id: Number(req.params.id) });
   res.render('edit.ejs', { data: result });
 });
+
+// app.put('/edit', async (req, res) => {
+//   console.log('=======', req.body);
+//   const aa = await db
+//     .collection('post')
+//     .updateOne(
+//       { _id: Number(req.body.id) },
+//       { $set: { title: req.body.title, date: req.body.date } }
+//     );
+//   console.log('888888', aa);
+// });
+
+app.put('/edit', function (req, res) {
+  db.collection('post').updateOne(
+    { _id: parseInt(req.body.id) },
+    { $set: { 제목: req.body.title, 날짜: req.body.date } },
+    function () {
+      console.log('수정완료');
+      res.redirect('/list');
+    }
+  );
+});

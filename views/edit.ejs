@@ -2,10 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <title>Write</title>
+    <title>Edit</title>
 </head>
 <body>
-<form action="" method="">
+<form action="/edit?_method=PUT" method="POST">
+    <input type="hidden" name="id" value="<%= data._id %>">
     <label for="title">
         Title: <input type="text" id="title" name="title" value="<%= data.title %>" />
     </label>
